@@ -56,7 +56,7 @@ function loadCart() {
   cart.forEach((item, index) => {
     total += item.price;
     cartDiv.innerHTML += `
-      <div class="snack-card">
+      <div class="cart-card">
         ${item.name} - $${item.price}
         <button onclick="removeFromCart(${index})">Remove</button>
       </div>
@@ -198,3 +198,4 @@ function flipCard(button) {
 }
 
 window.flipCard = flipCard;
+
