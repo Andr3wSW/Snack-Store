@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cart</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="customModal" class="modal">
+  <div class="modal-content">
+    <p id="modalMessage"></p>
+    <button onclick="closeModal()">OK</button>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Your Cart</h2>
+
+  <div id="cartItems"></div>
+
+  <h3>Meeting Spot</h3>
+  <select id="meetingSpot">
+    <option>Student Store</option>
+    <option>D Building</option>
+    <option>Cafeteria</option>
+  </select>
+
+  <button onclick="checkout()">Checkout (Cash Only)</button>
+
+  <br><br>
+  <a href="index.html">Continue Shopping</a>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
