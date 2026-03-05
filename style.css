@@ -64,6 +64,7 @@ button:hover {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
+  z-index: 999;
 }
 
 .modal.show {
@@ -170,4 +171,5 @@ button:hover {
   width: 30px;
   height: 30px;
   cursor: pointer;
+
 }
