@@ -175,6 +175,79 @@ async function loadSnacks() {
 
 window.loadSnacks = loadSnacks;
 
+async function signup() {
+
+  const firstName = document.getElementById("firstName").value.trim();
+  const lastName = document.getElementById("lastName").value.trim();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  if (!firstName || !lastName || !email || !password) {
+    showModal("Please fill in all fields.");
+    return;
+  }
+
+  try {
+
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    await setDoc(doc(db, "users", user.uid), {
+      firstName: firstName,
+      lastName: lastName,
+      fullName: firstName + " " + lastName,
+      email: email,
+      createdAt: new Date()
+    });
+
+    showModal("Account created!");
+
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 1200);
+
+  } catch (error) {
+
+    showModal(error.message);
+
+  }
+
+}
+
+
+
+async function login() {
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  if (!email || !password) {
+    showModal("Enter email and password.");
+    return;
+  }
+
+  try {
+
+    await signInWithEmailAndPassword(auth, email, password);
+
+    showModal("Logged in!");
+
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 1000);
+
+  } catch (error) {
+
+    showModal("Login failed: " + error.message);
+
+  }
+
+}
+
+
+
+window.signup = signup;
+window.login = login;
 // Run automatically
 loadSnacks();
 
@@ -201,10 +274,6 @@ function flipCard(button) {
 window.flipCard = flipCard;
 
 
-window.signup = signup;
-
-
-window.login = login;
 
 
 
