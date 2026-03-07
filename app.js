@@ -252,13 +252,21 @@ window.login = login;
 loadSnacks();
 
 function showModal(message) {
-  const modal = document.getElementById("customModal");
-  const messageBox = document.getElementById("modalMessage");
 
-  messageBox.textContent = message;
-  modal.classList.add("show");
+  const modal = document.getElementById("modal");
+  const modalText = document.getElementById("modalText");
+
+  // If modal doesn't exist on this page, fallback to alert
+  if (!modal || !modalText) {
+    alert(message);
+    return;
+  }
+
+  modalText.textContent = message;
+  modal.style.display = "flex";
 }
 
+window.showModal = showModal;
 function closeModal() {
   const modal = document.getElementById("customModal");
   modal.classList.remove("show");
@@ -272,6 +280,7 @@ function flipCard(button) {
 }
 
 window.flipCard = flipCard;
+
 
 
 
