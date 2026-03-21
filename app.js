@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-import { getFirestore, doc, setDoc, collection, getDocs, getDoc } 
+import { getFirestore, doc, setDoc, collection, getDocs, getDoc, addDoc } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // YOUR CONFIG (same as before)
@@ -262,4 +262,46 @@ async function isAdmin(uid) {
   return adminSnap.exists();
 
 }
+
+async function addSnack() {
+
+  const name = document.getElementById("snackName").value;
+  const price = Number(document.getElementById("snackPrice").value);
+  const image = document.getElementById("snackImage").value;
+
+  if (!name || !price || !image) {
+    showModal("Fill everything!");
+    return;
+  }
+
+  await addDoc(collection(db, "snacks"), {
+    name,
+    price,
+    image
+  });
+
+  showModal("Snack added!");
+
+}
+
+window.addSnack = addSnack;
+
+async function makeAdmin() {
+
+  const uid = document.getElementById("adminUID").value;
+
+  if (!uid) {
+    showModal("Enter UID");
+    return;
+  }
+
+  await setDoc(doc(db, "admins", uid), {
+    role: "admin"
+  });
+
+  showModal("User is now admin!");
+
+}
+
+window.makeAdmin = makeAdmin;
 
