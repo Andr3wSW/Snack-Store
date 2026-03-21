@@ -134,8 +134,6 @@ async function loadSnacks() {
 // call it once on page load
 document.addEventListener("DOMContentLoaded", loadSnacks);
 
-// Run it automatically
-loadSnacks();
 function addToCart(name, price) {
 
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
