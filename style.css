@@ -173,7 +173,7 @@ box-shadow:0 2px 5px rgba(0,0,0,0.1);
   top: 10px;                 /* distance from top */
   right: 10px;               /* distance from right */
   width: 15px;
-  height: 30px;
+  height: 15px;
   border-radius: 50%;        /* makes it circular */
   border: none;
   background-color:#4CAF50; /* or whatever fits your theme */
