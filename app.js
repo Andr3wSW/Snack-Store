@@ -1,8 +1,7 @@
-import { getFirestore, doc, setDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-import { getFirestore, doc, setDoc } 
+import { getFirestore, doc, setDoc, collection, getDocs }
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // YOUR CONFIG (same as before)
