@@ -131,9 +131,6 @@ async function loadSnacks() {
   
 }
 
-// attach to window so you can call it globally
-window.loadSnacks = loadSnacks;
-
 // call it once on page load
 document.addEventListener("DOMContentLoaded", loadSnacks);
 
