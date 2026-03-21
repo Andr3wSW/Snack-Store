@@ -242,19 +242,17 @@ onAuthStateChanged(auth, async (user) => {
       name = docSnap.data().fullName;
     }
 
-    const admin = await isAdmin(user.uid);
 
 userDiv.innerHTML = `
   Signed in as: ${name}
   <br>
   <button onclick="logout()">Logout</button>
-  ${admin ? '<br><a href="admin.html">Admin Panel</a>' : ''}
 `;
 
   } else {
 
     userDiv.innerHTML = `
-      <a href="login.html">Login</a>
+      <button onclick="login.html">Login</button>
     `;
 
   }
@@ -279,105 +277,3 @@ async function isAdmin(uid) {
   return adminSnap.exists();
 
 }
-
-async function addSnack() {
-
-  const name = document.getElementById("snackName").value;
-  const price = Number(document.getElementById("snackPrice").value);
-  const image = document.getElementById("snackImage").value;
-
-  if (!name || !price || !image) {
-    showModal("Fill everything!");
-    return;
-  }
-
-  await addDoc(collection(db, "snacks"), {
-    name,
-    price,
-    image
-  });
-
-  showModal("Snack added!");
-
-}
-
-window.addSnack = addSnack;
-
-const OWNER_UID = "peB49N5QYjOLUzFQOEqF1Uq3gum2";
-
-async function makeAdmin() {
-
-  const user = auth.currentUser;
-
-  if (!user || user.uid !== OWNER_UID) {
-    showModal("You are not allowed to do this.");
-    return;
-  }
-
-  const uid = document.getElementById("adminUID").value;
-
-  if (!uid) {
-    showModal("Enter UID");
-    return;
-  }
-
-  await setDoc(doc(db, "admins", uid), {
-    role: "admin"
-  });
-
-  showModal("User is now admin!");
-
-}
-
-window.makeAdmin = makeAdmin;
-
-function protectAdminPage() {
-  onAuthStateChanged(auth, async (user) => {
-
-    const OWNER_UID = "peB49N5QYjOLUzFQOEqF1Uq3gum2"; // keep your UID
-
-    if (!user) {
-      window.location.href = "login.html";
-      return;
-    }
-
-    const admin = await isAdmin(user.uid);
-
-    if (!admin && user.uid !== OWNER_UID) {
-      showModal("Access denied.");
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 1200);
-    }
-
-  });
-}
-
-window.protectAdminPage = protectAdminPage;
-
-async function loadOrders() {
-
-  const container = document.getElementById("orders");
-  if (!container) return;
-
-  const querySnapshot = await getDocs(collection(db, "orders"));
-
-  container.innerHTML = "";
-
-  querySnapshot.forEach((doc) => {
-
-    const order = doc.data();
-
-    let itemsList = order.items.map(i => i.name).join(", ");
-
-    container.innerHTML += `
-      <div class="order-card">
-        <b>${order.userName}</b><br>
-        ${itemsList}
-      </div>
-    `;
-  });
-
-}
-
-window.loadOrders = loadOrders;
