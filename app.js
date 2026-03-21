@@ -21,7 +21,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 // ===== MODAL SYSTEM =====
-async function showModal(message) {
+function showModal(message) {
   const modal = document.getElementById("customModal");
   const modalMessage = document.getElementById("modalMessage");
   if (!modal || !modalMessage) return; // check for element
@@ -31,7 +31,7 @@ async function showModal(message) {
   modal.style.display = "flex";
 }
 
-async function closeModal() {
+function closeModal() {
   const modal = document.getElementById("customModal");
   if (!modal) return;
 
