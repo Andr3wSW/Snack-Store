@@ -96,9 +96,9 @@ async function loadSnacks() {
   const container = document.getElementById("snacks");
   if (!container) return;
 
-  container.innerHTML = ""; // clear existing snacks
+  container.innerHTML = ""; // clear any old cards first
 
-  // fetch the snacks from Firestore
+  // fetch snacks once
   const querySnapshot = await getDocs(collection(db, "snacks"));
 
   querySnapshot.forEach((doc) => {
@@ -108,6 +108,7 @@ async function loadSnacks() {
     const disabled = stock <= 0 ? "disabled" : "";
     const grey = stock <= 0 ? "opacity:0.5;" : "";
 
+    // append card
     container.innerHTML += `
       <div class="snack-card" id="snack-${doc.id}" style="${grey}">
         <div class="snack-inner">
@@ -127,6 +128,14 @@ async function loadSnacks() {
       </div>
     `;
   });
+  
+}
+
+// attach to window so you can call it globally
+window.loadSnacks = loadSnacks;
+
+// call it once on page load
+document.addEventListener("DOMContentLoaded", loadSnacks);
 }
 
 window.loadSnacks = loadSnacks;
