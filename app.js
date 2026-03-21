@@ -126,6 +126,7 @@ async function loadSnacks() {
     // append card
     container.innerHTML += `
       <div class="snack-card" id="snack-${doc.id}" style="${grey}">
+      ${stock <= 0 ? `<div class="stock-badge">Out of Stock</div>` : ""}
         <div class="snack-inner">
           <div class="snack-front">
             <img src="${snack.image}" style="width:100%;height:120px;object-fit:cover;">
