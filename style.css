@@ -62,3 +62,20 @@ height:120px;
 object-fit:cover;
 border-radius:8px;
 }
+
+.cart-item{
+background:white;
+margin:10px auto;
+padding:10px;
+width:250px;
+border-radius:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.cart-item button{
+background:red;
+padding:5px 10px;
+}
