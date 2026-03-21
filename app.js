@@ -6,6 +6,8 @@ from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, collection, getDocs, getDoc, addDoc } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+import { db } from "./app.js";
+
 // YOUR CONFIG (same as before)
 const firebaseConfig = {
   apiKey: "AIzaSyApNczevOMrVuPSEL4oLYGgvVr7IYZHHRE",
@@ -93,35 +95,46 @@ window.signup = signup;
 window.login = login;
 
 async function loadSnacks() {
+  const container = document.getElementById("snacks");
+  if (!container) return;
 
-querySnapshot.forEach((doc) => {
-  const snack = doc.data();
-  const price = Number(snack.price);
+  container.innerHTML = ""; // clear existing snacks
 
-  container.innerHTML += `
-    <div class="snack-card" id="snack-${doc.id}">
-      <div class="snack-inner">
-        <div class="snack-front">
-          <img src="${snack.image}" style="width:100%;height:120px;object-fit:cover;">
-          <h3>${snack.name}</h3>
-          <p>$${price}</p>
-          <button onclick="addToCart('${snack.name}', ${price})">Add to Cart</button>
-          <button onclick="flipCard('snack-${doc.id}')">?</button>
-        </div>
-        <div class="snack-back">
-          <p>${snack.description || "No description."}</p>
-          <p>Nutrition: ${snack.nutrition || "N/A"}</p>
-          <button onclick="flipCard('snack-${doc.id}')">Back</button>
+  // fetch the snacks from Firestore
+  const querySnapshot = await getDocs(collection(db, "snacks"));
+
+  querySnapshot.forEach((doc) => {
+    const snack = doc.data();
+    const price = Number(snack.price);
+    const stock = snack.stock || 0;
+    const disabled = stock <= 0 ? "disabled" : "";
+    const grey = stock <= 0 ? "opacity:0.5;" : "";
+
+    container.innerHTML += `
+      <div class="snack-card" id="snack-${doc.id}" style="${grey}">
+        <div class="snack-inner">
+          <div class="snack-front">
+            <img src="${snack.image}" style="width:100%;height:120px;object-fit:cover;">
+            <h3>${snack.name}</h3>
+            <p>$${price}</p>
+            <button onclick="addToCart('${snack.name}', ${price})" ${disabled}>Add to Cart</button>
+            <button onclick="flipCard('snack-${doc.id}')">?</button>
+          </div>
+          <div class="snack-back">
+            <p>${snack.description || "No description."}</p>
+            <p>Nutrition: ${snack.nutrition || "N/A"}</p>
+            <button onclick="flipCard('snack-${doc.id}')">Back</button>
+          </div>
         </div>
       </div>
-    </div>
-  `;
-});
-  
+    `;
+  });
 }
 
 window.loadSnacks = loadSnacks;
 
+// Run it automatically
+loadSnacks();
 function addToCart(name, price) {
 
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
