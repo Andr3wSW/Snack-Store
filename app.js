@@ -195,9 +195,27 @@ async function checkout() {
     return;
   }
 
-  showModal("Order placed! Bring cash.");
+  const user = auth.currentUser;
+
+  if (!user) {
+    showModal("You must be logged in!");
+    return;
+  }
+
+  // Get user name
+  const userDoc = await getDoc(doc(db, "users", user.uid));
+  const name = userDoc.exists() ? userDoc.data().fullName : user.email;
+
+  await addDoc(collection(db, "orders"), {
+    items: cart,
+    userName: name,
+    userEmail: user.email,
+    createdAt: new Date()
+  });
 
   localStorage.removeItem("cart");
+
+  showModal("Order placed!");
 
   setTimeout(() => {
     window.location.href = "index.html";
@@ -206,7 +224,6 @@ async function checkout() {
 }
 
 window.checkout = checkout;
-
 loadCart();
 
 onAuthStateChanged(auth, async (user) => {
@@ -286,7 +303,16 @@ async function addSnack() {
 
 window.addSnack = addSnack;
 
+const OWNER_UID = "peB49N5QYjOLUzFQOEqF1Uq3gum2";
+
 async function makeAdmin() {
+
+  const user = auth.currentUser;
+
+  if (!user || user.uid !== OWNER_UID) {
+    showModal("You are not allowed to do this.");
+    return;
+  }
 
   const uid = document.getElementById("adminUID").value;
 
@@ -305,3 +331,51 @@ async function makeAdmin() {
 
 window.makeAdmin = makeAdmin;
 
+async function protectAdminPage() {
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const admin = await isAdmin(user.uid);
+
+  if (!admin && user.uid !== OWNER_UID) {
+    showModal("Access denied.");
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 1200);
+  }
+
+}
+
+window.protectAdminPage = protectAdminPage;
+
+async function loadOrders() {
+
+  const container = document.getElementById("orders");
+  if (!container) return;
+
+  const querySnapshot = await getDocs(collection(db, "orders"));
+
+  container.innerHTML = "";
+
+  querySnapshot.forEach((doc) => {
+
+    const order = doc.data();
+
+    let itemsList = order.items.map(i => i.name).join(", ");
+
+    container.innerHTML += `
+      <div class="order-card">
+        <b>${order.userName}</b><br>
+        ${itemsList}
+      </div>
+    `;
+  });
+
+}
+
+window.loadOrders = loadOrders;
