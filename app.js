@@ -132,12 +132,10 @@ async function loadSnacks() {
             <h3>${snack.name}</h3>
             <p>$${price}</p>
             <button onclick="addToCart('${snack.name}', ${price})" ${disabled}>Add to Cart</button>
-            <button class="flip-btn" onclick="flipCard('snack-${doc.id}')">?</button>
           </div>
           <div class="snack-back">
             <p>${snack.description || "No description."}</p>
             <p>Nutrition: ${snack.nutrition || "N/A"}</p>
-            <button onclick="flipCard('snack-${doc.id}')">Back</button>
           </div>
         </div>
       </div>
@@ -305,9 +303,5 @@ async function isAdmin(uid) {
 
 }
 
-function flipCard(id) {
-  const card = document.getElementById(id);
-  card.classList.toggle("flipped");
-}
 
 window.flipCard = flipCard;
