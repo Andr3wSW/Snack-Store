@@ -172,8 +172,8 @@ box-shadow:0 2px 5px rgba(0,0,0,0.1);
   position: absolute;        /* position relative to the snack card */
   top: 10px;                 /* distance from top */
   right: 10px;               /* distance from right */
-  width: 15px;
-  height: 15px;
+  width: 10px;
+  height: 30px;
   border-radius: 50%;        /* makes it circular */
   border: none;
   background-color:#4CAF50; /* or whatever fits your theme */
