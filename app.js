@@ -331,24 +331,26 @@ async function makeAdmin() {
 
 window.makeAdmin = makeAdmin;
 
-async function protectAdminPage() {
+function protectAdminPage() {
+  onAuthStateChanged(auth, async (user) => {
 
-  const user = auth.currentUser;
+    const OWNER_UID = "peB49N5QYjOLUzFQOEqF1Uq3gum2"; // keep your UID
 
-  if (!user) {
-    window.location.href = "login.html";
-    return;
-  }
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
 
-  const admin = await isAdmin(user.uid);
+    const admin = await isAdmin(user.uid);
 
-  if (!admin && user.uid !== OWNER_UID) {
-    showModal("Access denied.");
-    setTimeout(() => {
-      window.location.href = "index.html";
-    }, 1200);
-  }
+    if (!admin && user.uid !== OWNER_UID) {
+      showModal("Access denied.");
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1200);
+    }
 
+  });
 }
 
 window.protectAdminPage = protectAdminPage;
