@@ -132,7 +132,7 @@ async function loadSnacks() {
             <h3>${snack.name}</h3>
             <p>$${price}</p>
             <button onclick="addToCart('${snack.name}', ${price})" ${disabled}>Add to Cart</button>
-            <button onclick="flipCard('snack-${doc.id}')">?</button>
+            <button class="flip-btn" onclick="flipCard('snack-${doc.id}')">?</button>
           </div>
           <div class="snack-back">
             <p>${snack.description || "No description."}</p>
