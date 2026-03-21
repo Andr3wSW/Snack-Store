@@ -133,3 +133,5 @@ function addToCart(name, price) {
 
 window.addToCart = addToCart;
 
+loadSnacks();
+
