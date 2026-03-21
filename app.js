@@ -137,9 +137,6 @@ window.loadSnacks = loadSnacks;
 // call it once on page load
 document.addEventListener("DOMContentLoaded", loadSnacks);
 
-
-window.loadSnacks = loadSnacks;
-
 // Run it automatically
 loadSnacks();
 function addToCart(name, price) {
@@ -155,8 +152,6 @@ function addToCart(name, price) {
 }
 
 window.addToCart = addToCart;
-
-loadSnacks();
 
 function loadCart() {
 
