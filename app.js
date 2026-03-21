@@ -94,28 +94,30 @@ window.login = login;
 
 async function loadSnacks() {
 
-  const container = document.getElementById("snacks");
-  if (!container) return;
+querySnapshot.forEach((doc) => {
+  const snack = doc.data();
+  const price = Number(snack.price);
 
-  container.innerHTML = "";
-
-  const querySnapshot = await getDocs(collection(db, "snacks"));
-
-  querySnapshot.forEach((doc) => {
-
-    const snack = doc.data();
-    const price = Number(snack.price);
-
-    container.innerHTML += `
-      <div class="snack-card">
-        <img src="${snack.image}" class="snack-img">
-        <h3>${snack.name}</h3>
-        <p>$${price}</p>
-        <button onclick="addToCart('${snack.name}', ${price})">Add to Cart</button>
+  container.innerHTML += `
+    <div class="snack-card" id="snack-${doc.id}">
+      <div class="snack-inner">
+        <div class="snack-front">
+          <img src="${snack.image}" style="width:100%;height:120px;object-fit:cover;">
+          <h3>${snack.name}</h3>
+          <p>$${price}</p>
+          <button onclick="addToCart('${snack.name}', ${price})">Add to Cart</button>
+          <button onclick="flipCard('snack-${doc.id}')">?</button>
+        </div>
+        <div class="snack-back">
+          <p>${snack.description || "No description."}</p>
+          <p>Nutrition: ${snack.nutrition || "N/A"}</p>
+          <button onclick="flipCard('snack-${doc.id}')">Back</button>
+        </div>
       </div>
-    `;
-  });
-
+    </div>
+  `;
+});
+  
 }
 
 window.loadSnacks = loadSnacks;
@@ -277,3 +279,27 @@ async function isAdmin(uid) {
   return adminSnap.exists();
 
 }
+
+function showModal(message) {
+  const modal = document.getElementById("customModal");
+  const modalMessage = document.getElementById("modalMessage");
+  modalMessage.textContent = message;
+  modal.classList.add("show");
+  modal.style.display = "flex";
+}
+
+function closeModal() {
+  const modal = document.getElementById("customModal");
+  modal.classList.remove("show");
+  setTimeout(() => { modal.style.display = "none"; }, 300);
+}
+
+window.showModal = showModal;
+window.closeModal = closeModal;
+
+function flipCard(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle("flipped");
+}
+
+window.flipCard = flipCard;
