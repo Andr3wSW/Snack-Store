@@ -24,24 +24,35 @@ const db = getFirestore(app);
 function showModal(message) {
   const modal = document.getElementById("customModal");
   const modalMessage = document.getElementById("modalMessage");
-  if (!modal || !modalMessage) return; // check for element
+  if (!modal || !modalMessage) return;
 
   modalMessage.textContent = message;
-  modal.classList.add("show");
+
+  // First make it visible, but keep modal-content scaled down + transparent
   modal.style.display = "flex";
+
+  // Force a reflow so transition works
+  void modal.offsetWidth;
+
+  // Add show class to animate scale + opacity
+  modal.classList.add("show");
 }
 
 function closeModal() {
   const modal = document.getElementById("customModal");
   if (!modal) return;
 
+  // remove the show class to start transition back
   modal.classList.remove("show");
-  setTimeout(() => { modal.style.display = "none"; }, 300);
+
+  // wait for transition to finish before hiding completely
+  setTimeout(() => {
+    modal.style.display = "none";
+  }, 300); // same as CSS transition duration
 }
 
 window.showModal = showModal;
 window.closeModal = closeModal;
-
 // ===== SIGNUP =====
 async function signup() {
   const firstName = document.getElementById("firstName").value.trim();
