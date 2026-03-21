@@ -252,7 +252,7 @@ userDiv.innerHTML = `
   } else {
 
     userDiv.innerHTML = `
-      <button onclick="login.html">Login</button>
+      <button onclick="window.location.href='login.html'">Login</button>
     `;
 
   }
