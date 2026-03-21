@@ -24,6 +24,8 @@ const db = getFirestore(app);
 function showModal(message) {
   const modal = document.getElementById("customModal");
   const modalMessage = document.getElementById("modalMessage");
+  if (!modal || !modalMessage) return; // check for element
+
   modalMessage.textContent = message;
   modal.classList.add("show");
   modal.style.display = "flex";
@@ -31,6 +33,8 @@ function showModal(message) {
 
 function closeModal() {
   const modal = document.getElementById("customModal");
+  if (!modal) return;
+
   modal.classList.remove("show");
   setTimeout(() => { modal.style.display = "none"; }, 300);
 }
