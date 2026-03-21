@@ -96,12 +96,15 @@ box-shadow:0 2px 5px rgba(0,0,0,0.1);
   border-radius: 12px;
   background: white;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
 }
 
 .snack-card img {
   height: 120px;
   object-fit: cover;
   border-radius: 8px;
+  transition: transform 0.3s ease
 }
 
 .snack-name {
@@ -125,6 +128,7 @@ box-shadow:0 2px 5px rgba(0,0,0,0.1);
 
 .snack-card button {
   margin-top: auto;          /* pushes button to bottom */
+  transition: background 0.2s ease, transform 0.1s ease;
 }
 .modal {
   display: none;               /* hidden by default */
@@ -174,4 +178,21 @@ box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 .snack-card {
   position: relative;        /* so absolute children are positioned correctly */
+}
+
+.snack-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.25);
+}
+
+.snack-card:hover img {
+  transform: scale(1.08);
+}
+
+.snack-card button:hover {
+  transform: scale(1.05);
+}
+
+.snack-card button:active {
+  transform: scale(0.95);
 }
