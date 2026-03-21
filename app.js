@@ -133,10 +133,6 @@ async function loadSnacks() {
             <p>$${price}</p>
             <button onclick="addToCart('${snack.name}', ${price})" ${disabled}>Add to Cart</button>
           </div>
-          <div class="snack-back">
-            <p>${snack.description || "No description."}</p>
-            <p>Nutrition: ${snack.nutrition || "N/A"}</p>
-          </div>
         </div>
       </div>
     `;
