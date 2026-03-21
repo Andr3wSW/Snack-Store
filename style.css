@@ -167,3 +167,21 @@ box-shadow:0 2px 5px rgba(0,0,0,0.1);
   transform: scale(1);
   opacity: 1;
 }
+
+.flip-btn {
+  position: absolute;        /* position relative to the snack card */
+  top: 10px;                 /* distance from top */
+  right: 10px;               /* distance from right */
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;        /* makes it circular */
+  border: none;
+  background-color: #ffcc00; /* or whatever fits your theme */
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 2;                /* above snack front content */
+}
+.snack-card {
+  position: relative;        /* so absolute children are positioned correctly */
+}
