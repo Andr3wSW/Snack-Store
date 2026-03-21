@@ -23,6 +23,17 @@
 
 <button onclick="makeAdmin()">Promote to Admin</button>
 
+<hr>
+
+<h3>Orders</h3>
+<div id="orders"></div>
+
+<script type="module">
+import "./app.js";
+window.protectAdminPage();
+window.loadOrders();
+</script>
+
 <br><br>
 <a href="index.html">Back</a>
 
