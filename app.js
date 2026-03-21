@@ -1,9 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-import { getFirestore, doc, setDoc, collection, getDocs } 
+import { getFirestore, doc, setDoc, collection, getDocs, getDoc } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // YOUR CONFIG (same as before)
@@ -208,4 +208,46 @@ async function checkout() {
 window.checkout = checkout;
 
 loadCart();
+
+onAuthStateChanged(auth, async (user) => {
+
+  const userDiv = document.getElementById("userInfo");
+  if (!userDiv) return;
+
+  if (user) {
+
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    let name = user.email;
+
+    if (docSnap.exists()) {
+      name = docSnap.data().fullName;
+    }
+
+    userDiv.innerHTML = `
+      Signed in as: ${name}
+      <br>
+      <button onclick="logout()">Logout</button>
+    `;
+
+  } else {
+
+    userDiv.innerHTML = `
+      <a href="login.html">Login</a>
+    `;
+
+  }
+
+});
+
+import { signOut } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+function logout() {
+  signOut(auth);
+  location.reload();
+}
+
+window.logout = logout;
 
