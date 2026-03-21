@@ -225,11 +225,14 @@ onAuthStateChanged(auth, async (user) => {
       name = docSnap.data().fullName;
     }
 
-    userDiv.innerHTML = `
-      Signed in as: ${name}
-      <br>
-      <button onclick="logout()">Logout</button>
-    `;
+    const admin = await isAdmin(user.uid);
+
+userDiv.innerHTML = `
+  Signed in as: ${name}
+  <br>
+  <button onclick="logout()">Logout</button>
+  ${admin ? '<br><a href="admin.html">Admin Panel</a>' : ''}
+`;
 
   } else {
 
@@ -250,4 +253,13 @@ function logout() {
 }
 
 window.logout = logout;
+
+async function isAdmin(uid) {
+
+  const adminRef = doc(db, "admins", uid);
+  const adminSnap = await getDoc(adminRef);
+
+  return adminSnap.exists();
+
+}
 
