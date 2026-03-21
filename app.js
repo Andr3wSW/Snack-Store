@@ -136,3 +136,76 @@ window.addToCart = addToCart;
 
 loadSnacks();
 
+function loadCart() {
+
+  const container = document.getElementById("cartItems");
+  const totalText = document.getElementById("total");
+
+  if (!container) return;
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (cart.length === 0) {
+    container.innerHTML = "<p>Your cart is empty.</p>";
+    totalText.textContent = "";
+    return;
+  }
+
+  container.innerHTML = "";
+
+  let total = 0;
+
+  cart.forEach((item, index) => {
+
+    total += item.price;
+
+    container.innerHTML += `
+      <div class="cart-item">
+        ${item.name} - $${item.price}
+        <button onclick="removeFromCart(${index})">X</button>
+      </div>
+    `;
+  });
+
+  totalText.textContent = "Total: $" + total;
+
+}
+
+function removeFromCart(index) {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  cart.splice(index, 1);
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  loadCart();
+
+}
+
+window.removeFromCart = removeFromCart;
+window.loadCart = loadCart;
+
+async function checkout() {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (cart.length === 0) {
+    showModal("Cart is empty!");
+    return;
+  }
+
+  showModal("Order placed! Bring cash.");
+
+  localStorage.removeItem("cart");
+
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 1200);
+
+}
+
+window.checkout = checkout;
+
+loadCart();
+
