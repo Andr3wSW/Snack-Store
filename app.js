@@ -1,4 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, setDoc, collection, getDocs } 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
@@ -90,3 +90,46 @@ async function login() {
 
 window.signup = signup;
 window.login = login;
+
+async function loadSnacks() {
+
+  const container = document.getElementById("snacks");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const querySnapshot = await getDocs(collection(db, "snacks"));
+
+  querySnapshot.forEach((doc) => {
+
+    const snack = doc.data();
+    const price = Number(snack.price);
+
+    container.innerHTML += `
+      <div class="snack-card">
+        <img src="${snack.image}" class="snack-img">
+        <h3>${snack.name}</h3>
+        <p>$${price}</p>
+        <button onclick="addToCart('${snack.name}', ${price})">Add to Cart</button>
+      </div>
+    `;
+  });
+
+}
+
+window.loadSnacks = loadSnacks;
+
+function addToCart(name, price) {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  cart.push({ name, price });
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  showModal(name + " added to cart!");
+
+}
+
+window.addToCart = addToCart;
+
