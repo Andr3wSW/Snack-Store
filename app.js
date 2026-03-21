@@ -22,20 +22,20 @@ const db = getFirestore(app);
 
 // ===== MODAL SYSTEM =====
 function showModal(message) {
-  const modal = document.getElementById("modal");
-  const text = document.getElementById("modalText");
-
-  if (!modal || !text) return alert(message);
-
-  text.textContent = message;
+  const modal = document.getElementById("customModal");
+  const modalMessage = document.getElementById("modalMessage");
+  modalMessage.textContent = message;
+  modal.classList.add("show");
   modal.style.display = "flex";
 }
 
 function closeModal() {
-  const modal = document.getElementById("modal");
-  if (modal) modal.style.display = "none";
+  const modal = document.getElementById("customModal");
+  modal.classList.remove("show");
+  setTimeout(() => { modal.style.display = "none"; }, 300);
 }
 
+window.showModal = showModal;
 window.closeModal = closeModal;
 
 // ===== SIGNUP =====
@@ -290,23 +290,6 @@ async function isAdmin(uid) {
   return adminSnap.exists();
 
 }
-
-function showModal(message) {
-  const modal = document.getElementById("customModal");
-  const modalMessage = document.getElementById("modalMessage");
-  modalMessage.textContent = message;
-  modal.classList.add("show");
-  modal.style.display = "flex";
-}
-
-function closeModal() {
-  const modal = document.getElementById("customModal");
-  modal.classList.remove("show");
-  setTimeout(() => { modal.style.display = "none"; }, 300);
-}
-
-window.showModal = showModal;
-window.closeModal = closeModal;
 
 function flipCard(id) {
   const card = document.getElementById(id);
