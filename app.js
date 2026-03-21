@@ -136,7 +136,7 @@ window.loadSnacks = loadSnacks;
 
 // call it once on page load
 document.addEventListener("DOMContentLoaded", loadSnacks);
-}
+
 
 window.loadSnacks = loadSnacks;
 
