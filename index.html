@@ -1,21 +1,34 @@
-<h1>Snack Store</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-<div id="customModal" class="modal">
-  <div class="modal-content">
-    <p id="modalMessage"></p>
-    <button onclick="closeModal()">OK</button>
+<head>
+  <meta charset="UTF-8">
+  <title>Home | Snack Store</title>
+
+  <!-- ✅ Favicon goes HERE -->
+  <link rel="icon" type="image/png" href="home.png">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <h1>Snack Store</h1>
+
+  <div id="customModal" class="modal">
+    <div class="modal-content">
+      <p id="modalMessage"></p>
+      <button onclick="closeModal()">OK</button>
+    </div>
   </div>
-</div>
 
-<link rel="icon" type="image/png" href="home.png">
-<title>Home | Snack Store</title>
+  <div id="userInfo"></div>
+  <div id="snacks"></div>
 
-<div id="userInfo"></div>
-<div id="snacks"></div>
+  <button onclick="window.location.href='cart.html'">Go to Cart</button>
 
+  <script type="module" src="app.js"></script>
 
-
-<button onclick="window.location.href='cart.html'">Go to Cart</button>
-
-<script type="module" src="app.js"></script>
-<link rel="stylesheet" href="style.css">
+</body>
+</html>
