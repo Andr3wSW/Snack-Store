@@ -109,6 +109,8 @@ async function login() {
 window.signup = signup;
 window.login = login;
 
+const container = document.getElementById("snacks");
+
 async function loadSnacks() {
   container.innerHTML = "";
 
@@ -282,9 +284,6 @@ async function isAdmin(uid) {
   return adminSnap.exists();
 
 }
-
-
-window.flipCard = flipCard;
 
 function displaySnacks(snacks) {
   container.innerHTML = "";
