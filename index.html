@@ -24,6 +24,21 @@
   </div>
 
   <div id="userInfo"></div>
+  <div style="margin: 20px 0;">
+  <input 
+    type="text" 
+    id="searchInput" 
+    placeholder="Search snacks..."
+    oninput="filterSnacks()"
+    style="padding:8px;width:200px;"
+  >
+
+  <select id="stockFilter" onchange="filterSnacks()" style="padding:8px;">
+    <option value="all">All</option>
+    <option value="in">In Stock</option>
+    <option value="out">Out of Stock</option>
+  </select>
+</div>
   <div id="snacks"></div>
 
   <button onclick="window.location.href='cart.html'">Go to Cart</button>
