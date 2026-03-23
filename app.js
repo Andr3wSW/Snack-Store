@@ -125,7 +125,7 @@ async function loadSnacks() {
   displaySnacks(allSnacks);
 }
 
-loadSnacks()
+loadSnacks();
 
 function addToCart(name, price) {
 
