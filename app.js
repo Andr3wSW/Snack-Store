@@ -291,7 +291,7 @@ function displaySnacks(snacks) {
   snacks.forEach((snack) => {
     const price = Number(snack.price);
 
-    const outOfStock = snack.inStock === false;
+    const outOfStock = (snack.stock || 0) <= 0;
 
     container.innerHTML += `
       <div class="snack-card ${outOfStock ? 'out' : ''}">
@@ -320,7 +320,7 @@ function filterSnacks() {
   const filtered = allSnacks.filter(snack => {
     const matchesSearch = snack.name.toLowerCase().includes(search);
 
-    const inStock = snack.inStock !== false;
+    const inStock = (snack.stock || 0) > 0;
 
     let matchesStock = true;
     if (stock === "in") matchesStock = inStock;
