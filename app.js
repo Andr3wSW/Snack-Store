@@ -20,6 +20,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+let allSnacks = [];
+
 // ===== MODAL SYSTEM =====
 function showModal(message) {
   const modal = document.getElementById("customModal");
@@ -108,41 +110,22 @@ window.signup = signup;
 window.login = login;
 
 async function loadSnacks() {
-  const container = document.getElementById("snacks");
-  if (!container) return;
+  container.innerHTML = "";
 
-  container.innerHTML = ""; // clear any old cards first
-
-  // fetch snacks once
   const querySnapshot = await getDocs(collection(db, "snacks"));
 
-  querySnapshot.forEach((doc) => {
-    const snack = doc.data();
-    const price = Number(snack.price);
-    const stock = snack.stock || 0;
-    const disabled = stock <= 0 ? "disabled" : "";
-    const grey = stock <= 0 ? "opacity:0.5;" : "";
+  allSnacks = [];
 
-    // append card
-    container.innerHTML += `
-      <div class="snack-card" id="snack-${doc.id}" style="${grey}">
-      ${stock <= 0 ? `<div class="stock-badge">Out of Stock</div>` : ""}
-        <div class="snack-inner">
-          <div class="snack-front">
-            <img src="${snack.image}" style="width:100%;height:120px;object-fit:cover;">
-            <h3>${snack.name}</h3>
-            <p>$${price}</p>
-            <button onclick="addToCart('${snack.name}', ${price})" ${disabled}>Add to Cart</button>
-          </div>
-        </div>
-      </div>
-    `;
+  querySnapshot.forEach((docSnap) => {
+    const snack = docSnap.data();
+    snack.id = docSnap.id;
+    allSnacks.push(snack);
   });
-  
+
+  displaySnacks(allSnacks);
 }
 
-// call it once on page load
-document.addEventListener("DOMContentLoaded", loadSnacks);
+loadSnacks()
 
 function addToCart(name, price) {
 
@@ -302,3 +285,54 @@ async function isAdmin(uid) {
 
 
 window.flipCard = flipCard;
+
+function displaySnacks(snacks) {
+  container.innerHTML = "";
+
+  snacks.forEach((snack) => {
+    const price = Number(snack.price);
+
+    const outOfStock = snack.inStock === false;
+
+    container.innerHTML += `
+      <div class="snack-card ${outOfStock ? 'out' : ''}">
+        ${outOfStock ? '<div class="badge">Out of Stock</div>' : ''}
+
+        <img src="${snack.image}" style="width:100%;height:120px;object-fit:cover;">
+        
+        <h3>${snack.name}</h3>
+        <p>$${price}</p>
+
+        <button 
+          onclick="addToCart('${snack.name}', ${price})"
+          ${outOfStock ? "disabled" : ""}
+        >
+          Add to Cart
+        </button>
+      </div>
+    `;
+  });
+}
+
+function filterSnacks() {
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const stock = document.getElementById("stockFilter").value;
+
+  const filtered = allSnacks.filter(snack => {
+    const matchesSearch = snack.name.toLowerCase().includes(search);
+
+    const inStock = snack.inStock !== false;
+
+    let matchesStock = true;
+    if (stock === "in") matchesStock = inStock;
+    if (stock === "out") matchesStock = !inStock;
+
+    return matchesSearch && matchesStock;
+  });
+
+  displaySnacks(filtered);
+}
+
+window.filterSnacks = filterSnacks;
+
+
